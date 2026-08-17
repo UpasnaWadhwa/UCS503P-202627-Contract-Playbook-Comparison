@@ -15,11 +15,11 @@
 \title{\textbf{Contract Playbook Comparison System}\\[2pt]
 \large A Retrieval-Augmented System for Automated Contract Clause Review}
 \author{
-Mannat, CSED\thanks{Roll No: 1024240023, Email: mannat\_be24thapar.edu}
+Mannat, DSAI\thanks{Roll No: 1024240023, Email: \href{mailto:mannat_be24@thapar.edu}{mannat\_be24@thapar.edu}}
 \and
-Upasna Wadhwa, CSED\thanks{Roll No: 1024240022, Email: uwadhwa\_be24thapar.edu}
+Upasna Wadhwa, DSAI\thanks{Roll No: 1024240022, Email: \href{mailto:uwadhwa_be24@thapar.edu}{uwadhwa\_be24@thapar.edu}}
 \and
-Yuvicka, CSED\thanks{Roll No: 1024240016, Email: yuvicka\_be24thapar.edu}
+Yuvicka, DSAI\thanks{Roll No: 1024240016, Email: \href{mailto:yuvicka_be24@thapar.edu}{yuvicka\_be24@thapar.edu}}
 }
 \date{August 17, 2026}
 
@@ -41,12 +41,12 @@ Yuvicka, DSAI\footnotemark[3]
 \end{center}
 
 \begin{center}
-August 16, 2026
+August 17, 2026
 \end{center}
 
-\footnotetext[1]{Roll No: 1024240023, Email: mmannat\_be24@thapar.edu}
-\footnotetext[2]{Roll No: 1024240022, Email: uwadhwa\_be24@thapar.edu}
-\footnotetext[3]{Roll No: 1024240016, Email: yyuvicka\_be24@thapar.edu}
+\footnotetext[1]{Roll No: 1024240023, Email: \href{mailto:mannat_be24@thapar.edu}{\underline{mannat\_be24@thapar.edu}}}
+\footnotetext[2]{Roll No: 1024240022, Email: \href{mailto:uwadhwa_be24@thapar.edu}{\underline{uwadhwa\_be24@thapar.edu}}}
+\footnotetext[3]{Roll No: 1024240016, Email: \href{mailto:yuvicka_be24@thapar.edu}{\underline{yuvicka\_be24@thapar.edu}}}
 
 \vspace{10pt}
 
@@ -160,7 +160,7 @@ A staged retrieval-augmented pipeline:
   for long legal clauses.
   \item \textbf{Indexing:} sentence-transformer embeddings stored in FAISS/ChromaDB,
   alongside a BM25 keyword index for hybrid retrieval,  important because
-  exact legal terminology (`"indemnify", "force majeure") often matters
+  exact legal terminology (``indemnify'', ``force majeure'') often matters
   more than pure semantic similarity.
   \item \textbf{Comparison:} a structured LLM prompt that receives only the playbook
   position and the retrieved chunk(s), prohibiting the model from answering off
