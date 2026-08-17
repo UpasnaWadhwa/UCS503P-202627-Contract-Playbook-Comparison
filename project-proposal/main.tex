@@ -1,242 +1,296 @@
-\documentclass[11pt,a4paper]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
 \usepackage{enumitem}
-\usepackage{graphicx}
-\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage{titlesec}
 
-% -----------------------------------------------------
-% bvraghav-tiet-ucs503p-article.sty
-% -----------------------------------------------------
+% Section headers
+\newcommand{\secx}[1]{\section{#1}}
+\newcommand{\subsecx}[1]{\subsection{#1}}
 
-% Variable: Lab Instructor
-\makeatletter \newcommand{\BvrSetLabInstructor}[1]{%
-  \gdef\Bvr@LabInstructor{#1}}
-% default
-\newcommand{\Bvr@LabInstructor}{Dr. Raghav %
-  B. Venkataramaiyer}
-% public accessor
-\newcommand{\BvrLabInstructorValue}{\Bvr@LabInstructor}
-\makeatother
+% Footnote symbols (*, dagger, ...) instead of numbers, standard for author affiliations
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
-% Add subtitle
-\usepackage{titling}
-% -- Set title bold
-\pretitle{\begin{center}\bfseries\fontsize{18bp}{18bp}\selectfont}
-\makeatletter
-\newcommand{\BvrSubtitle}[1]{%
-  \posttitle{%
-    \par\end{center}
-    \begin{center}\large#1\end{center}
-    \vskip 0.5em}%
-}
-\makeatother
-
-% Hints in the section title(s)
-\newcommand{\BvrHint}[1]{%
-  {\normalfont\normalsize\itshape\hfill #1}}
-
-% -----------------------------------------------------
-
-\title{Grievance-Resolution System for a Tier-2/3 City}
-
-\BvrSetLabInstructor{Dr. Raghav B. Venkataramaiyer}
-
-\BvrSubtitle{%
-  Project Proposal for UCS503P  \\
-  Submitted to: \BvrLabInstructorValue \\ \bfseries
-  Thapar Institute of Engineering and Technology% 
-}
-
+\title{\textbf{Contract Playbook Comparison System}\\[2pt]
+\large A Retrieval-Augmented System for Automated Contract Clause Review}
 \author{
-  Vidya Vaidyanathan, CSED%
-  \thanks{Roll No: \texttt{1024030xxx}, %
-    Email: \texttt{vvaidhanathan\_be24\@thapar.edu}}
-  \and 
-  Bhanurekha Ganesan, CSED%
-  \thanks{Roll No: \texttt{1024030xxx}, %
-    Email: \texttt{bganesan\_be24\@thapar.edu}}
+Mannat, CSED\thanks{Roll No: 1024240023, Email: mannat\_be24thapar.edu}
+\and
+Upasna Wadhwa, CSED\thanks{Roll No: 1024240022, Email: uwadhwa\_be24thapar.edu}
+\and
+Yuvicka, CSED\thanks{Roll No: 1024240016, Email: yuvicka\_be24thapar.edu}
 }
-
-\date{\today}
+\date{August 16, 2026}
 
 \begin{document}
-\maketitle
 
-\section{Higher-order goal%
-  \BvrHint{\ldots secondary framing}}
-This project aims to improve sustainable urban
-governance by reducing the time and effort required to
-resolve citizen issues. While the topic is broader than
-any single municipality, the immediate engineering
-objective is to translate \emph{efficient public
-  service delivery} into a measurable, deployable
-software solution.
+\begin{center}
+{\large\bfseries Contract Playbook Comparison System}\\[4pt]
+{\normalsize Project Proposal for UCS503}\\[2pt]
+{\normalsize Submitted to: Dr.\ Jeelani Asif}\\[2pt]
+{\normalsize Thapar Institute of Engineering and Technology}
+\end{center}
 
-\section{Time-to-value %
-\BvrHint{\ldots primary heuristic}}
-\begin{itemize}[leftmargin=0.7cm]
-    \item We will deliver meaningful increments quickly by prototyping the core user workflow and validating it with users within a short iteration window.
-    \item We will prioritize fast feedback over perfection by using weekly iterations (and targeting CI-backed automation early) to reduce release friction.
-    \item Success is defined by what can be delivered and measured in the first iteration, then improved based on user feedback.
+\vspace{6pt}
+
+\begin{center}
+Mannat, DSAI\footnotemark[1] \qquad\qquad
+Upasna Wadhwa, DSAI\footnotemark[2] \qquad\qquad
+Yuvicka, DSAI\footnotemark[3]
+\end{center}
+
+\begin{center}
+August 16, 2026
+\end{center}
+
+\footnotetext[1]{Roll No: 1024240023, Email: mannat\_be24thapar.edu}
+\footnotetext[2]{Roll No: 1024240022, Email: uwadhwa\_be24thapar.edu}
+\footnotetext[3]{Roll No: 1024240016, Email: yuvicka\_be24thapar.edu}
+
+\vspace{10pt}
+
+\secx{Higher-order goal}
+This project focuses on improving the reliability and consistency of corporate legal and
+procurement decision-making by minimising the manual effort required to review vendor
+contracts against internal risk policy. While the underlying technique (retrieval-augmented
+generation over legal text) is broadly applicable, the immediate engineering objective is to translate
+grounded, citation-backed clause comparison into a reliable, deployable software pipeline.
+
+\secx{Time-to-value}
+\begin{itemize}
+  \item We will deliver meaningful updates quickly by prototyping the core
+  retrieve-compare-report workflow on a small playbook (5 to 8 clause types) and
+  validating it against some contracts within a short iteration window.
+  \item We will prioritize fast feedback over perfection by building each pipeline
+  stage (ingestion, retrieval, comparison, reporting) as an independently
+  testable module, so partial progress may be visible every week.
+  \item Success shall be defined by what can be delivered and measured in the first
+  iteration that could be a working retrieval step evaluated against ground-truth clause
+  spans and then improved based on analysis of retrieval and classification errors.
 \end{itemize}
 
-\section{Problem Statement}
-Citizens in a tier-2/3 Indian city face delays and uncertainty when reporting local issues (e.g., streetlight outages, water leakage, garbage accumulation, road potholes). Common pain points include:
-\begin{itemize}[leftmargin=0.7cm]
-    \item \textbf{Fragmentation:} complaints are often made via multiple channels (calls, social media, paper forms), causing lost context.
-    \item \textbf{Low transparency:} citizens cannot easily see the status of their complaint (e.g., ``received'', ``assigned'', ``in progress'', ``resolved'').
-    \item \textbf{Slow coordination:} departments/field teams lack a unified, trackable workflow with clear ownership.
-    \item \textbf{Poor data quality:} duplicate or incomplete reports force rework and extend resolution time.
+\secx{Problem Statement}
+Companies bargain and sign large volumes of vendor, SaaS, and service contracts.
+Legal and procurement teams maintain an internal \emph{playbook}: a set of pre-approved
+clause positions representing acceptable risk (e.g., minimum liability caps, maximum
+termination notice periods, and compulsory auto-renewal opt-outs). When a new contract
+arrives, a reviewer must physically read the document (often 20--100+ pages), locate each
+relevant clause, compare it against the playbook, and flag variations. Common pain points include:
+
+\begin{itemize}
+  \item \textbf{Slow, non-scaling review:} manual review takes much time per contract and
+  does not scale with a large number of contracts.
+  \item \textbf{Inconsistent outcomes:} different reviewers catch different variations,
+  so review quality varies by who reviews it.
+  \item \textbf{No audit trail:} verdicts are hardly linked back to the exact source
+  text that produced them, making them hard to prove or dispute later.
+  \item \textbf{Hallucination risk of naive LLM use:} feeding an entire contract to a
+  general-purpose LLM and asking, "Does this match our policy?" produces
+  unverifiable, sometimes fabricated, answers  unacceptable when a missed
+  liability clause has real financial consequences.
 \end{itemize}
 
-\textbf{Why this matters now (contextual relevance):} In an urban setting with limited staff bandwidth, even small process improvements can noticeably reduce resolution delays and repeated submissions.
+\noindent\textbf{Why this matters now:} Contract Lifecycle
+Management (CLM) is an established, funded software category (e.g., Ironclad,
+LinkSquares, Lawgeex, Evisort), confirming this is a real workflow gap and not a
+contrived exercise. A retrieval-grounded approach is well suited here precisely because
+the cost of an ungrounded answer is high.
 
-\section{Proposed Solution %
-\BvrHint{\ldots Software Proposition}}
-\subsection{Overview}
-Build a \textbf{web-based} ``Grievance-to-Resolution'' system with the following components:
-\begin{itemize}[leftmargin=0.7cm]
-    \item \textbf{Citizen submission portal:} users submit an issue with photo (optional), category, and locality/ward.
-    \item \textbf{Automated triage:} basic duplicate detection and completeness checks.
-    \item \textbf{Department workflow:} assign issues to relevant department/team and update statuses.
-    \item \textbf{Status transparency:} citizens track status and receive notifications when resolved.
-    \item \textbf{Admin/ops dashboard:} performance summaries (resolution time, backlog).
+\secx{Proposed Solution}
+
+\subsecx{Overview}
+Building a retrieval-augmented pipeline, the \emph{Contract Playbook Comparison System},
+with the following parts:
+\begin{itemize}
+  \item \textbf{Playbook definition:} 5 to 8 clause categories (e.g., Termination,
+  Liability Cap, Auto-Renewal, Indemnification, Governing Law) each with a standard documented position.
+  \item \textbf{Clause retrieval:} hybrid semantic + keyword search that locates the
+  section(s) of an incoming contract mapping it to each playbook clause.
+  \item \textbf{Clause comparison:} an LLM classifies each retrieved section as
+  \emph{Match}, \emph{Deviation}, or \emph{Missing} according to the playbook
+  position, with a natural language explanation.
+  \item \textbf{Structured report:} one row per playbook clause, showing status,
+  explanation, and an exact citation into the source contract.
 \end{itemize}
 
-\subsection{Core workflow}
-\begin{enumerate}[leftmargin=0.7cm]
-    \item Citizen creates a complaint and receives a complaint ID immediately.
-    \item System validates completeness and suggests possible duplicates (lightweight similarity on text/category and approximate location).
-    \item Department staff update status (Received $\rightarrow$ Assigned $\rightarrow$ In Progress $\rightarrow$ Resolved).
-    \item Citizen views status updates and resolution notes.
+\subsecx{Core workflow}
+\begin{enumerate}
+  \item An incoming contract is parsed and chunked into indexable segments.
+  \item For each playbook clause type, the retrieval stage will return the top-$k$
+  candidate contract chunks.
+  \item If no chunk passes a similarity threshold, the clause is classified
+  \emph{Missing} directly and hence the LLM is never asked to guess from nothing.
+  \item Otherwise, the LLM compares the retrieved text against the playbook position
+  and returns \emph{Match} / \emph{Deviation} with a one-sentence explanation.
+  \item Results are put into a structured report with source citations.
 \end{enumerate}
 
-\subsection{Operational constraints for an educational, tier-2/3 setting}
-\begin{itemize}[leftmargin=0.7cm]
-    \item Keep the solution usable on low-to-mid range devices via responsive web design.
-    \item Avoid dependence on advanced research algorithms; focus on workflow, automation, and system correctness.
-    \item Design for deployability using common web hosting and managed databases.
+\subsecx{Operational constraints}
+\begin{itemize}
+  \item To use a well-established public dataset (CUAD) rather than sourcing and
+  labelling proprietary contracts.
+  \item Avoid dependence on unproven algorithms rather: favour standard,
+  well-documented retrieval and evaluation techniques.
+  \item Designing for a reproducible local/demo deployment (Streamlit or Gradio) rather
+  than production-grade infrastructure.
 \end{itemize}
 
-\section{Solution Approach %
-\BvrHint{\ldots Engineering focus}}
-This is an engineering course project, so we focus on scalable administrative and workflow aspects rather than novel algorithm research.
+\secx{Solution Approach}
+This is an engineering course project, so we focus on building and validating a
+modular pipeline rather than on unusual algorithm research.
 
-\subsection{Duplicate/quality assistance %
-\BvrHint{\ldots non-research}}
-Duplicate detection will be heuristic-based:
-\begin{itemize}[leftmargin=0.7cm]
-    \item Normalize text (category + short description keywords).
-    \item Use a simple similarity measure (e.g., token overlap / TF-IDF cosine with threshold) without claiming state-of-the-art.
-    \item Show top candidate duplicates to staff for decision; never fully auto-delete or auto-reject.
+\subsecx{Dataset and grounding}
+We will use CUAD (Contract Understanding Atticus Dataset): 510 real commercial contracts
+with 13,000+ expert-annotated clause spans across 41 categories.
+\begin{itemize}
+  \item Select 5--8 clause categories with reasonable positive-example counts in
+  CUAD and define a documented standard position for each.
+  \item Use held-out CUAD contracts as test inputs, giving automatic ground truth for
+  retrieval evaluation (does the system find the correct labelled span?).
+  \item Hand-label a small set (\textasciitilde50--100) of clause-comparison pairs as
+  Match/Variation/Missing for categorising evaluation.
 \end{itemize}
 
-\subsection{Web architecture %
-\BvrHint{\ldots web-based solution}}
-A typical 3-tier web architecture:
-\begin{itemize}[leftmargin=0.7cm]
-    \item \textbf{Frontend:} responsive UI for citizens and staff (status pages, submission form, dashboard).
-    \item \textbf{Backend API:} authentication, complaint submission, status transitions, assignment logic.
-    \item \textbf{Database:} store users, complaints, status history, attachments metadata.
+\subsecx{Pipeline architecture}
+A staged retrieval-augmented pipeline:
+\begin{itemize}
+  \item \textbf{Ingestion:} PDF/text parsing (pdfplumber/PyMuPDF) and intersecting
+  chunking (\textasciitilde300--500 tokens, \textasciitilde15\% overlap) tuned
+  for long legal clauses.
+  \item \textbf{Indexing:} sentence-transformer embeddings stored in FAISS/ChromaDB,
+  alongside a BM25 keyword index for hybrid retrieval,  important because
+  exact legal terminology (`"indemnify", "force majeure") often matters
+  more than pure semantic similarity.
+  \item \textbf{Comparison:} a structured LLM prompt that receives only the playbook
+  position and the retrieved chunk(s), prohibiting the model from answering off
+  of unretrieved, hallucinated context.
+  \item \textbf{Reporting:} a single table with  clause type, status, explanation, and
+  citation  as the reviewer-facing output.
 \end{itemize}
 
-\subsection{CI/CD and fast delivery enabler}
+\subsecx{CI/CD and fast delivery enabler}
 CI/CD will be used to:
-\begin{itemize}[leftmargin=0.7cm]
-    \item Automatically build and run tests on every change.
-    \item Produce repeatable deployment artifacts to staging.
-    \item Enable safe and frequent releases of incremental features.
+\begin{itemize}
+  \item Automatically run retrieval and classification validation scripts on every
+  change to the pipeline.
+  \item Produce a repeatable demo build (Streamlit/Gradio) for weekly review.
+  \item Enable safe, frequent iteration on every pipeline stage without
+  reevaluating the whole system manually.
 \end{itemize}
 
-\section{Evaluation Criterion %
-\BvrHint{\ldots measurable and attributable}}
-We define success using measurable metrics tied to the core workflow.
+\secx{Evaluation Criterion}
+We define success using metrics bind to each pipeline stage, each with its own
+ground truth.
 
-\subsection{Primary evaluation metric}
-\textbf{Time-to-acknowledgement (TTA):} time between complaint submission and ``Received/Assigned'' status creation in the system.
-\begin{itemize}[leftmargin=0.7cm]
-    \item Target: median TTA $\le$ 2 hours during pilot window.
-    \item Attribution: measured from database timestamps (submission vs. first status update by staff).
+\subsecx{Primary evaluation metric}
+\textbf{Retrieval accuracy}: Does the system return the correct contract span for each
+playbook clause type, measured directly against CUAD's labelled spans?
+\begin{itemize}
+  \item Target: Recall@$k$ (k=3-5) and mean reciprocal rank (MRR) reported per
+  clause category.
+  \item Attribution: computed automatically by matching retrieved chunk offsets
+  against CUAD ground-truth spans.
 \end{itemize}
 
-\subsection{Secondary evaluation metrics}
-\begin{itemize}[leftmargin=0.7cm]
-    \item \textbf{Resolution time reduction:} reduce time-to-resolved compared to baseline process (even if baseline is collected via survey).
-    \item \textbf{Duplicate rate:} percentage of complaints flagged as duplicates and resolved without rework.
-    \item \textbf{User clarity:} citizen-reported clarity of status using a simple 1--5 feedback question.
-    \item \textbf{Reliability:} availability of staging/production for login and submission during business hours (e.g., $\ge$ 99\% uptime in pilot).
+\subsecx{Secondary evaluation metrics}
+\begin{itemize}
+  \item \textbf{Classification accuracy:} agreement between the pipeline's
+  match/deviation/missing verdicts and the team's manually-labelled test set.
+  \item \textbf{Faithfulness:} Whether the LLM's explanation is led by the
+  retrieved text (checked manually on a selection and optionally via an
+  NLI-based check as in the RAGAS framework).
+  \item \textbf{Coverage:} percentage of playbook clause types for which the system
+  returns a confident retrieval (above threshold) versus falling back to
+  \emph{Missing}.
 \end{itemize}
 
-\subsection{Pilot validation plan %
-\BvrHint{\ldots high-level}}
-\begin{itemize}[leftmargin=0.7cm]
-    \item Recruit 10--20 pilot users (citizens) and 3--5 staff roles (department simulation if real staff unavailable).
-    \item Compare metrics before/after within the iteration window by logging baseline estimates via short interviews or existing process observations.
+\subsecx{Validation plan}
+\begin{itemize}
+  \item Evaluating retrieval and classification on a held-out split of CUAD contracts
+  not used to design the playbook positions.
+  \item Comparing hybrid (semantic + BM25) retrieval against semantic-only retrieval
+  as an ablation, to justify the hybrid design choice.
 \end{itemize}
 
-\section{Scalability %
-\BvrHint{\ldots with foresight}}
-The proposition should scale in both theoretical and practical senses.
-
-\begin{enumerate}[leftmargin=0.7cm]
-    \item \textbf{Scalable (theoretically):} The system should support growth in number of complaints and concurrent dashboard usage by:
-    \begin{itemize}[leftmargin=0.7cm]
-        \item decoupling components (frontend/backend),
-        \item enabling pagination and indexing for common queries,
-        \item using stateless API design.
-    \end{itemize}
-    
-    \item \textbf{Operationally deployable (practically):} The system should run on common web hosting:
-    \begin{itemize}[leftmargin=0.7cm]
-        \item managed database,
-        \item containerized or platform-hosted deployment,
-        \item CI/CD pipeline for staging/production.
-    \end{itemize}
+\secx{Scalability}
+The system should scale in both conceptual and practical senses.
+\begin{enumerate}
+  \item \textbf{Scalable (conceptually):} the pipeline should support supplementary
+  playbook clause types and larger contract volumes by
+  \begin{itemize}
+    \item decoupling ingestion, retrieval, comparison, and journalising stages,
+    \item indexing embeddings for sub-linear nearest-neighbour lookup,
+    \item batching LLM comparison calls independently per clause type.
+  \end{itemize}
+  \item \textbf{Operationally feasible (practically):} the demo should run on
+  commodity resources:
+  \begin{itemize}
+    \item a local or lightly-hosted vector index (FAISS/ChromaDB),
+    \item any accessible LLM API or a small open model to control cost,
+    \item CI-run evaluation scripts that do not require GPU infrastructure.
+  \end{itemize}
 \end{enumerate}
 
-\section{Engine availability heuristic}
-A mature set of ``engines'' (tooling/services) is available to implement this as a web-based project:
-\begin{itemize}[leftmargin=0.7cm]
-    \item Web framework for REST APIs and templated/reactive pages.
-    \item Managed relational or document database.
-    \item Authentication approach (token-based or session-based).
-    \item Object storage for optional attachments (or local storage for pilot).
-    \item Test framework for unit/integration tests.
-    \item CI runner and staging deployment target.
+\secx{Engine availability heuristic}
+A mature set of  "engines" (tooling/libraries) is available to implement this
+without inventing a new infrastructure:
+\begin{itemize}
+  \item Sentence-embedding models (\texttt{sentence-transformers}, e.g.\
+  \texttt{all-mpnet-base-v2}, or a legal-domain model such as Legal-BERT).
+  \item A vector store (FAISS or ChromaDB) and a keyword index (\texttt{rank\_bm25}).
+  \item An accessible LLM API for the comparison/classification step.
+  \item An evaluation framework purpose-built for RAG (RAGAS) instead of a
+  manual evaluation system.
+  \item A lightweight demo UI framework (Streamlit or Gradio).
 \end{itemize}
-We will use these mature components to focus on workflow design, correctness, and measurement rather than inventing new infrastructure.
+We will use these existing components to focus on pipeline correctness and evaluation
+quality rather than infrastructure-building.
 
-\section{Project scope and deliverables %
-\BvrHint{\ldots iteration-friendly}}
-\subsection{Initial deliverable %
-\BvrHint{\ldots first iteration}}
-\begin{itemize}[leftmargin=0.7cm]
-    \item Citizen submission form + complaint ID generation
-    \item Staff workflow: update status and assignment
-    \item Citizen status page: view timeline/history
-    \item Basic logging and timestamps for TTA measurement
-    \item CI: build + backend unit tests + linting
-    \item CD to staging with a single command or pipeline job
-\end{itemize}
+\secx{Project scope and deliverables}
 
-\subsection{Subsequent deliverables}
-\begin{itemize}[leftmargin=0.7cm]
-    \item Lightweight duplicate suggestions with staff review
-    \item Notification layer (email/SMS optional in later iteration; can start with in-app notifications)
-    \item Admin dashboard for metrics and backlog
-    \item Improved search/filtering and indexed queries for scale readiness
+\subsecx{Initial deliverable}
+\begin{itemize}
+  \item Playbook definition for 5--8 clause categories with documented standard
+  positions.
+  \item Ingestion and chunking pipeline for CUAD contract text.
+  \item Embedding index (FAISS/ChromaDB) with basic semantic retrieval.
+  \item Retrieval evaluation against CUAD ground-truth spans (Recall@$k$, MRR).
+  \item CI: automated evaluation run + linting on every change.
 \end{itemize}
 
-\section{Risks and mitigations}
-\begin{itemize}[leftmargin=0.7cm]
-    \item \textbf{Data privacy / consent:} minimize collected data; keep attachments optional; store only what is needed.
-    \item \textbf{Staff adoption:} provide an easy UI for status updates; keep workflow steps minimal; include shortcuts.
-    \item \textbf{Evaluation measurement ambiguity:} instrument timestamps and define clear status transitions before development begins.
-    \item \textbf{Operational issues in pilot:} use staging early; ensure CI/CD produces repeatable deployments.
+\subsecx{Subsequent deliverables}
+\begin{itemize}
+  \item Hybrid retrieval (BM25 + semantic) and ablation comparison against
+  semantic-only retrieval.
+  \item LLM-based clause comparison with structured Match/Deviation/Missing output.
+  \item Hand-labelled classification test set and accuracy/faithfulness evaluation.
+  \item Streamlit/Gradio demo: contract selection $\rightarrow$ playbook comparison
+  $\rightarrow$ cited report.
 \end{itemize}
 
-\section{Summary}
-This project proposes a deployable web platform to reduce grievance handling delays in a tier-2/3 city context. It meets the course criteria by emphasizing time-to-value through rapid iterations, implementing CI/CD to support frequent safe releases, and using measurable evaluation criteria (especially time-to-acknowledgement). It remains focused on engineering workflow and scalability readiness rather than research-driven novelty.
+\secx{Risks and mitigations}
+\begin{itemize}
+  \item \textbf{LLM hallucination even with retrieved context:} keep comparison
+  prompts strict (``only use the provided text; say `cannot determine' if
+  unclear''), and always surface the retrieved source text alongside the
+  verdict so it is independently verifiable.
+  \item \textbf{Class imbalance in CUAD categories:} check per-category label counts
+  in week 1 and choose playbook clause types with enough representation.
+  \item \textbf{Fuzzy clause boundaries:} allow retrieval to return multiple adjacent
+  chunks rather than a single best match, since clauses can span paragraphs.
+  \item \textbf{Domain-specific phrasing confusing embeddings:} mitigate with hybrid
+  (semantic + keyword) retrieval, since exact legal terms often carry more
+  signal than semantic similarity alone.
+\end{itemize}
+
+\secx{Summary}
+This project suggests a retrieval-augmented pipeline that automates contract clause
+review against an internal playbook, producing grounded, citation-backed verdicts
+instead of unverifiable LLM output. It meets the course criteria by decomposing the
+system into independently testable modules, defining measurable validation criteria
+at each stage (retrieval accuracy, classification accuracy, and faithfulness), and
+grounding the whole design in a well-established public legal-NLP benchmark (CUAD)
+rather than research-driven novelty.
 
 \end{document}
