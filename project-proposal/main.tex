@@ -2,6 +2,7 @@
 \usepackage[a4paper,margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
+\usepackage{graphicx}
 \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
 \usepackage{titlesec}
 
@@ -100,8 +101,18 @@ the cost of an ungrounded answer is high.
 \secx{Proposed Solution}
 
 \subsecx{Overview}
+
+
 Building a retrieval-augmented pipeline, the \emph{Contract Playbook Comparison System},
 with the following parts:
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{pipeline_architecture.png}
+  \caption{End-to-end pipeline architecture: contract ingestion, embedding/indexing,
+  hybrid clause retrieval, LLM-based comparison, structured reporting, and evaluation.}
+  \label{fig:pipeline}
+\end{figure}
 \begin{itemize}
   \item \textbf{Playbook definition:} 5 to 8 clause categories (e.g., Termination,
   Liability Cap, Auto-Renewal, Indemnification, Governing Law) each with a standard documented position.
@@ -153,7 +164,7 @@ with 13,000+ expert-annotated clause spans across 41 categories.
 \end{itemize}
 
 \subsecx{Pipeline architecture}
-A staged retrieval-augmented pipeline:
+As illustrated in Figure~\ref{fig:pipeline}, this is a staged retrieval-augmented pipeline:
 \begin{itemize}
   \item \textbf{Ingestion:} PDF/text parsing (pdfplumber/PyMuPDF) and intersecting
   chunking (\textasciitilde300--500 tokens, \textasciitilde15\% overlap) tuned
