@@ -34,23 +34,23 @@
  
 ## Overview
  
-Legal and procurement teams review vendor, SaaS, and service contracts against an internal **playbook** — a set of pre-approved clause positions (e.g., liability caps, termination notice periods, auto-renewal opt-outs). This manual review is slow, inconsistent across reviewers, and hard to audit, and naively feeding whole contracts to an LLM risks hallucinated, unverifiable verdicts.
+Legal and procurement teams review the vendor, SaaS, and service contracts against an internal **playbook** that is a set of pre-approved clause positions (e.g., liability caps, termination notice periods, auto-renewal opt-outs etc). This manual review is slow, inconsistent across reviewers, and hard to audit, and naively feeding whole contracts to an LLM risks hallucinated, unverifiable decisions.
  
-The **Contract Playbook Comparison System** is a retrieval-augmented generation (RAG) pipeline that grounds every verdict in an exact, cited span of the source contract. Instead of asking an LLM "does this contract comply with our policy?", the system:
+The **Contract Playbook Comparison System** is a retrieval-augmented generation (RAG) pipeline that grounds every verdict in an exact, cited span of the source contract. Rather than asking an LLM "does this contract comply with our policy?", the system:
  
 1. Retrieves the specific contract chunk(s) relevant to each playbook clause type.
 2. Asks the LLM to compare *only* that retrieved text against the playbook position.
 3. Classifies the clause as **Match**, **Deviation**, or **Missing**, with a citation back to the source text.
-This keeps every output traceable and auditable — a requirement when a missed clause carries real financial or legal consequences.
+This keeps every output traceable and auditable which is required when a missed clause carries real financial or legal consequences.
  
 ---
  
 ## Problem Statement
  
-- **Slow, non-scaling review** — manual review takes significant time per contract and doesn't scale with volume.
-- **Inconsistent outcomes** — different reviewers catch different variations.
-- **No audit trail** — verdicts aren't linked back to the exact source text.
-- **Hallucination risk** — naive "read the whole contract and answer" LLM use produces unverifiable, sometimes fabricated answers.
+- **Slow, non-scaling review** : manual review takes significant time per contract and doesn't scale with volume.
+- **Inconsistent outcomes** : different reviewers catch different variations.
+- **No audit trail** : verdicts aren't linked back to the exact source text.
+- **Hallucination risk** : naive "read the whole contract and answer" LLM use produces unverifiable, sometimes fabricated answers.
 Contract Lifecycle Management (CLM) is an established, funded software category (Ironclad, LinkSquares, Lawgeex, Evisort), confirming this is a genuine workflow gap rather than a contrived exercise.
  
 ---
@@ -62,8 +62,8 @@ Contract Lifecycle Management (CLM) is an established, funded software category 
 | Stage | Description |
 |---|---|
 | **Ingestion** | Parse contracts (PDF/text) and chunk into ~300–500 token segments with ~15% overlap, tuned for long legal clauses. |
-| **Indexing** | Sentence-transformer embeddings (FAISS/ChromaDB) + a BM25 keyword index for hybrid retrieval — exact legal terms like "indemnify" or "force majeure" often matter as much as semantic similarity. |
-| **Retrieval** | For each playbook clause type, return top-*k* candidate chunks. If nothing passes a similarity threshold, classify the clause as **Missing** directly — the LLM is never asked to guess from nothing. |
+| **Indexing** | Sentence-transformer embeddings (FAISS/ChromaDB) + a BM25 keyword index for hybrid retrieval because exact legal terms like "indemnify" or "force majeure" often matter as much as semantic similarity. |
+| **Retrieval** | For each playbook clause type, return top-*k* candidate chunks. If nothing passes a similarity threshold, classify the clause as **Missing** directly and hence the LLM is never asked to guess from nothing. |
 | **Comparison** | An LLM receives only the playbook position and the retrieved chunk(s), and classifies the clause as **Match**, **Deviation**, or **Missing** with a one-sentence, text-grounded explanation. |
 | **Reporting** | A structured, reviewer-facing report: one row per playbook clause, with status, explanation, and an exact citation into the source contract. |
  
@@ -119,8 +119,8 @@ Contract Lifecycle Management (CLM) is an established, funded software category 
 ```
 .
 ├── proposal/                  # Project Proposal (LaTeX)
-├── prototype-report/          # Project Report — Prototype Stage (LaTeX)
-├── final-report/              # Project Report — Final (LaTeX)
+├── prototype-report/          # Project Report, Prototype Stage (LaTeX)
+├── final-report/              # Project Report Final (LaTeX)
 ├── journals/                  # One folder per team member, weekly journal entries
 │   ├── Mannat/
 │   ├── Upasna-Wadhwa/
@@ -179,7 +179,7 @@ make docs
  
 ## License
  
-This project is licensed under the [MIT License](LICENSE) — a permissive, widely-used open-source license that lets others use, modify, and share the code as long as they include the original copyright notice. If you'd prefer a different license, replace the `LICENSE` file and update this section accordingly.
+This project is licensed under the [MIT License](LICENSE), a permissive, widely-used open-source license that lets others use, modify, and share the code as long as they include the original copyright notice.
  
 ---
  
